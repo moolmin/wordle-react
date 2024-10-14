@@ -1,5 +1,9 @@
-export default function Game(){
-    return(
-        <h1>Game</h1>
-    );
+import Wordle from "@components/wordle/wordle"
+
+export default function Game() {
+  return (
+    <>
+      <Wordle />
+    </>
+  )
 }
