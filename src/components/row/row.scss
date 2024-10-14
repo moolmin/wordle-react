@@ -5,7 +5,7 @@
     gap: 5px;
     font-weight: 600;
     font-size: 1.8rem;
-  
+
     &--bounce {
       animation: 0.3s linear bounce;
     }
@@ -22,7 +22,7 @@
       position: relative;
       transform-style: preserve-3d;
       text-transform: uppercase;
-  
+
       &--active {
         border-color: #A7ADC0;
         color: black;
@@ -85,7 +85,20 @@
       }
     }
   }
+
+  .dark-mode {
+    .letter {
+      color: #fff;
+      background-color: $dark-row; 
+      border-color: $dark-border;
+    }
   
+    .letter--active {
+      color: #fff;
+      border-color: $dark-active-border;
+    }
+  }
+
   @keyframes rotate {
     0% {
       transform: rotate3d(1, 0, 0, 0deg);
