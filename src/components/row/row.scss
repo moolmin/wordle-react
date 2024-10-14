@@ -1,8 +1,10 @@
+@import '../../constants/color-variable.scss';
+
 .row {
     display: flex;
     gap: 5px;
     font-weight: 600;
-    font-size: 2rem;
+    font-size: 1.8rem;
   
     &--bounce {
       animation: 0.3s linear bounce;
@@ -12,7 +14,7 @@
       width: 60px;
       height: 60px;
       background-color: #FBFCFF;
-      border: 2px solid #DEE1E9;
+      border: 2px solid $border-color;
       border-radius: 4px;
       display: flex;
       justify-content: center;
@@ -64,22 +66,22 @@
   
     .present {
       .back {
-        background-color: #B59F3B;
-        color: #fff;
+        background-color: $present-color;
+        color: #ffffff;
       }
     }
   
     .absent {
       .back {
-        background-color: #999999;
-        color: #fff;
+        background-color: $absent-color;
+        color: #ffffff;
       }
     }
   
     .correct {
       .back {
-        background-color: #538d4e;
-        color: #fff;
+        background-color: $correct-color;
+        color: #ffffff;
       }
     }
   }

@@ -65,12 +65,12 @@ export default function Wordle() {
       const wordExists = await checkWordExists(currentGuess)
 
       if (!wordExists) {
-        setNotification('NOT IN THE WORD LIST')
+        setNotification('단어를 찾을 수 없습니다.')
       } else if (failedGuesses.includes(currentGuess)) {
-        setNotification('WORD TRIED ALREADY')
+        setNotification('이미 시도한 단어입니다.')
       } else if (currentGuess === SOLUTION) {
         setSolutionFound(true)
-        setNotification('WELL DONE')
+        setNotification('정답입니다!')
         setCorrectLetters([...SOLUTION])
       } else {
         let newCorrectLetters: string[] = []
@@ -172,7 +172,7 @@ export default function Wordle() {
           }
           solution={SOLUTION}
           bounceOnError={
-            notification !== 'WELL DONE' &&
+            notification !== '정답입니다!' &&
             notification !== '' &&
             activeRowIndex === index
           }
