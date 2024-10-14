@@ -30,9 +30,19 @@ export default function Wordle() {
 
   useEffect(() => {
     if (wordleRef.current) {
-      wordleRef.current.focus()
+      wordleRef.current.focus();
     }
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => {
+        setNotification('');
+      }, 2000);
+
+      return () => clearTimeout(timer); 
+    }
+  }, [notification]);
 
   const typeLetter = (letter: string) => {
     if (activeLetterIndex < 5) {
@@ -48,7 +58,7 @@ export default function Wordle() {
       setGuesses(newGuesses)
       setActiveLetterIndex((index) => index + 1)
     }
-  }
+  };
 
   const replaceCharacter = (
     str: string,
@@ -65,18 +75,18 @@ export default function Wordle() {
       const wordExists = await checkWordExists(currentGuess)
 
       if (!wordExists) {
-        setNotification('단어를 찾을 수 없습니다.')
+        setNotification('단어를 찾을 수 없습니다')
       } else if (failedGuesses.includes(currentGuess)) {
-        setNotification('이미 시도한 단어입니다.')
+        setNotification('이미 시도한 단어입니다')
       } else if (currentGuess === SOLUTION) {
-        setSolutionFound(true)
-        setNotification('정답입니다!')
-        setCorrectLetters([...SOLUTION])
+        setSolutionFound(true);
+        setNotification('정답입니다!');
+        setCorrectLetters([...SOLUTION]);
       } else {
-        let newCorrectLetters: string[] = []
+        let newCorrectLetters: string[] = [];
 
         currentGuess.split('').forEach((letter, index) => {
-          if (SOLUTION[index] === letter) newCorrectLetters.push(letter)
+          if (SOLUTION[index] === letter) newCorrectLetters.push(letter);
         })
 
         setCorrectLetters([
@@ -101,20 +111,20 @@ export default function Wordle() {
           ]),
         ])
 
-        setFailedGuesses([...failedGuesses, currentGuess])
-        setActiveRowIndex((index) => index + 1)
-        setActiveLetterIndex(0)
+        setFailedGuesses([...failedGuesses, currentGuess]);
+        setActiveRowIndex((index) => index + 1);
+        setActiveLetterIndex(0);
       }
     } else {
-      setNotification('FIVE LETTER WORDS ONLY')
+      setNotification('5글자가 아닙니다');
     }
   }
 
   const hitBackspace = () => {
-    setNotification('')
+    setNotification('');
 
     if (activeLetterIndex > 0) {
-      const newGuesses = [...guesses]
+      const newGuesses = [...guesses];
 
       newGuesses[activeRowIndex] = replaceCharacter(
         newGuesses[activeRowIndex],
@@ -122,26 +132,26 @@ export default function Wordle() {
         ' '
       )
 
-      setGuesses(newGuesses)
-      setActiveLetterIndex((index) => index - 1)
+      setGuesses(newGuesses);
+      setActiveLetterIndex((index) => index - 1);
     }
   }
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (solutionFound) return
+    if (solutionFound) return;
 
     if (LETTERS.includes(event.key)) {
-      typeLetter(event.key)
-      return
+      typeLetter(event.key);
+      return;
     }
 
     if (event.key === 'Enter') {
-      hitEnter()
-      return
+      hitEnter();
+      return;
     }
 
     if (event.key === 'Backspace') {
-      hitBackspace()
+      hitBackspace();
     }
   }
 
@@ -154,11 +164,11 @@ export default function Wordle() {
       onKeyDown={handleKeyDown}
     >
       <h1 className='title'>Wordle Clone</h1>
-      <div
-        className={`notification ${solutionFound ? 'notification--green' : ''}`}
-      >
-        {notification}
-      </div>
+      {notification && (
+        <div className="modal">
+          <p>{notification}</p>
+        </div>
+      )}
       {guesses.map((guess, index) => (
         <Row
           key={index}
