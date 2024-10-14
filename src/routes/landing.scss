@@ -1,0 +1,103 @@
+.landing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 50px;
+}
+
+.letterContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.flipWord {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    transform-style: preserve-3d;
+    transform-origin: center;
+    animation: flip 1s ease-in-out forwards;
+    transition: transform 0.6s;
+}
+
+.front,
+.back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backface-visibility: hidden;
+    border: 2px solid #333;
+    border-radius: 5px;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.front {
+    background-color: #fbfcff;
+}
+
+.back {
+    background-color: #ffedcc;
+    transform: rotateY(180deg);
+}
+
+.btnContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    align-items: center;
+    margin-top: 120px;
+
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 200px;
+        height: 50px;
+        font-size: 1.3rem;
+        border-radius: 4px;
+        padding: 20px;
+        border: 2px solid #000;
+    }
+}
+
+
+
+@keyframes flip {
+    0% {
+        transform: rotateY(0deg);
+    }
+    100% {
+        transform: rotateY(180deg);
+    }
+}
+
+.rotate--100 {
+    animation-delay: 0s;
+}
+
+.rotate--200 {
+    animation-delay: 0.2s;
+}
+
+.rotate--300 {
+    animation-delay: 0.4s;
+}
+
+.rotate--400 {
+    animation-delay: 0.6s;
+}
+
+.rotate--500 {
+    animation-delay: 0.8s;
+}
+
+.rotate--600 {
+    animation-delay: 1s;
+}

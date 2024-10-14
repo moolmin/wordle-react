@@ -91,12 +91,26 @@
       color: #fff;
       background-color: $dark-row; 
       border-color: $dark-border;
+
+      &--active {
+        background-color: $dark-back;
+      }
     }
   
     .letter--active {
       color: #fff;
+      background-color: $dark-row;
       border-color: $dark-active-border;
     }
+
+    .back {
+      background-color: $dark-back;
+    }
+
+    .row .absent .back {
+      background-color: $dark-back;
+      color: #ffffff;
+  }
   }
 
   @keyframes rotate {

@@ -1,14 +1,19 @@
-import { useState, useRef, useEffect } from 'react'
-import './wordle.scss'
-import Row from '@components/row/row'
-import { LETTERS } from '@/constants/letters'
-import { checkWordExists } from '@/service/dictionaryService'
-import Keyboard from '@components/keyboard/keyboard'
-
-// const SOLUTION = WORDS[Math.floor(Math.random() * WORDS.length)];
-const SOLUTION = 'world'
+import { useState, useRef, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import './wordle.scss';
+import Row from '@components/row/row';
+import { LETTERS } from '@/constants/letters';
+import { checkWordExists } from '@/service/dictionaryService';
+import Keyboard from '@components/keyboard/keyboard';
 
 export default function Wordle() {
+  const { encodedWord } = useParams();
+  const SOLUTION = encodedWord ? atob(encodedWord) : '';
+
+  useEffect(() => {
+    console.log('Decoded SOLUTION:', SOLUTION);
+  }, [SOLUTION]);
+
   const [guesses, setGuesses] = useState<string[]>([
     '     ',
     '     ',

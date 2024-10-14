@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './app.scss'
 import Landing from './routes/landing'
 import Game from './routes/game'
-import Layout from '@components/layout/layout'
+import Layout from '@/layout/layout'
 
 const router = createBrowserRouter([
   {
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
         element: <Landing />,
       },
       {
-        path: 'game',
+        path: 'game/:encodedWord', 
         element: <Game />,
       },
     ],
