@@ -2,10 +2,14 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './app.scss'
 import Landing from './routes/landing'
 import Game from './routes/game'
+import Layout from '@components/layout/layout'
 
 const router = createBrowserRouter([
   {
     path: '/',
+    element: (
+        <Layout />
+    ),
     children: [
       {
         path: '',

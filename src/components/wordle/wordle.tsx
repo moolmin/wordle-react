@@ -163,7 +163,6 @@ export default function Wordle() {
       onBlur={(e) => e.target.focus()}
       onKeyDown={handleKeyDown}
     >
-      <h1 className='title'>Wordle Clone</h1>
       {notification && (
         <div className="modal">
           <p>{notification}</p>
