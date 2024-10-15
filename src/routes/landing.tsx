@@ -1,7 +1,7 @@
 import './landing.scss';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CreateGameModal from '@/components/modals/createGameModal';
+import CreateGameModal from '@/components/modals/createGameModal/createGameModal';
 
 export default function Landing() {
   const navigate = useNavigate()

@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import './header.scss'
 import { House, ChartColumnBig, Moon, Sun, CircleHelp } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import AnswerModal from '@components/modals/answerModal'
+import AnswerModal from '@components/modals/answerModal/answerModal'
+import StatisticsModal from '@components/modals/statisticsModal/statisticsModal'
 
 export default function Header() {
   const navigate = useNavigate()
@@ -10,6 +11,7 @@ export default function Header() {
 
   const [isDarkMode, setDarkMode] = useState(false)
   const [showAnswerModal, setShowAnswerModal] = useState(false)
+  const [showStatisticsModal, setShowStatisticsModal] = useState(false)
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme')
@@ -40,6 +42,10 @@ export default function Header() {
     return location.pathname.startsWith('/wordle')
   }
 
+  const toggleStatisticsModal = () => {
+    setShowStatisticsModal(!showStatisticsModal)
+  }
+
   return (
     <div className='header'>
       {isGamePath() && (
@@ -58,7 +64,7 @@ export default function Header() {
       )}
       <div className='header-title'></div>
       <div className='right-buttons'>
-        <button>
+        <button onClick={toggleStatisticsModal}>
           <ChartColumnBig />
         </button>
         <button onClick={toggleDarkMode}>
@@ -74,6 +80,10 @@ export default function Header() {
           decodedWord={getDecodedWord()}
           onClose={() => setShowAnswerModal(false)}
         />
+      )}
+
+      {showStatisticsModal && (
+        <StatisticsModal onClose={() => setShowStatisticsModal(false)} />
       )}
     </div>
   )

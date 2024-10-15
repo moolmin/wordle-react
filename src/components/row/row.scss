@@ -24,7 +24,6 @@
       text-transform: uppercase;
 
       &--active {
-        border-color: #A7ADC0;
         color: black;
         animation: 0.1s linear scale;
       }
@@ -67,7 +66,7 @@
     .present {
       .back {
         background-color: $present-color;
-        border-color: $present-color;
+        border: 2px solid $present-color;
         color: #ffffff;
       
       }
@@ -76,7 +75,7 @@
     .absent {
       .back {
         background-color: $absent-color;
-        border-color: $absent-color;
+        border: 2px solid $absent-color;
         color: #ffffff;
       }
     }
@@ -84,7 +83,7 @@
     .correct {
       .back {
         background-color: $correct-color;
-        border-color: $correct-color;
+        border: 2px solid $correct-color;
         color: #ffffff;
       }
     }

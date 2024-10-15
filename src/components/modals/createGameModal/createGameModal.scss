@@ -1,4 +1,11 @@
-@import "../../constants/color-variable.scss";
+@import "../../../constants/color-variable.scss";
+
+@font-face {
+  font-family: "SUIT-Regular";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
 
 .createGameModal {
   position: fixed;
@@ -12,21 +19,33 @@
   width: 350px;
   height: 270px;
   font-family: "SUIT-Regular";
-}
 
-.modalHeader {
-  width: 100%;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: $modal-header;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  margin-bottom: 30px;
-  position: relative;
-  padding-top: 12px;
+  .createModalHeader {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $modal-header;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-bottom: 30px;
+    position: relative;
+    padding-top: 12px;
 
+    .closeButton {
+      position: absolute;
+      right: 6%;
+      top: 10%;
+      background-color: transparent;
+      color: #818aa3;
+
+      &:hover {
+        color: #000;
+        background-color: transparent;
+      }
+    }
+  }
 }
 
 .modalContent {
@@ -34,18 +53,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-}
 
-.closeButton {
-  position: absolute;
-  right: 6%;
-  top: 10%;
-  background-color: transparent;
-  color: #818AA3;
-
-  &:hover {
-    color: #000;
-    background-color: transparent;
+  p {
+    font-size: 1rem;
+    font-family: "SUIT-Regular";
   }
 }
 
@@ -64,7 +75,7 @@ input {
   outline: none;
 
   &:focus {
-    border-color: #4caf50;
+    border: 1.5px solid #4caf50;
   }
 }
 
@@ -109,6 +120,11 @@ input {
 .dark-mode {
   .createGameModal {
     background-color: $dark-modal-bgColor;
+    color: #fff;
+  }
+
+  .createModalHeader {
+    background-color: #313447;
     color: #fff;
   }
 }

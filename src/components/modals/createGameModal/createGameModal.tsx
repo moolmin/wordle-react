@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom'
 import { checkWordExists } from '@/service/dictionaryService'
 import { X } from 'lucide-react'
 
-interface CreateGameModalProps {
+interface ModalProps {
   onClose: () => void
 }
 
-export default function CreateGameModal({ onClose }: CreateGameModalProps) {
+export default function CreateGameModal({ onClose }: ModalProps) {
   const navigate = useNavigate()
   const [inputWord, setInputWord] = useState('')
   const [error, setError] = useState('')
@@ -25,7 +25,7 @@ export default function CreateGameModal({ onClose }: CreateGameModalProps) {
 
   const handleCreateGame = async () => {
     if (inputWord.length !== 5) {
-      setError('정확히 5글자를 입력해주세요.')
+      setError('5글자를 입력해주세요.')
       return
     }
 
@@ -42,9 +42,9 @@ export default function CreateGameModal({ onClose }: CreateGameModalProps) {
 
   return (
     <div className='modalOverlay'>
-      <div className='createGameModal'>
+      <div className='createGameModal modalContainer'>
         <div className='modalContent'>
-          <div className='modalHeader'>
+          <div className='createModalHeader'>
             <h2>게임 생성하기</h2>
             <button className='closeButton' onClick={onClose}>
               <X />
@@ -56,7 +56,6 @@ export default function CreateGameModal({ onClose }: CreateGameModalProps) {
             type='text'
             value={inputWord}
             onChange={handleInputChange}
-            placeholder='영어 5글자'
             maxLength={5}
           />
 
