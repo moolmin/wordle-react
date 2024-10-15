@@ -5,7 +5,7 @@
     src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2") format("woff2");
     font-weight: normal;
     font-style: normal;
-  }
+}
 
 .modalOverlayTransparent {
     position: fixed;
@@ -16,7 +16,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 100;
 
     .modalContent {
         width: 560px;
@@ -26,6 +26,7 @@
 .statisticsModal {
     height: 700px;
     max-width: 580px;
+    width: 100%;
     background-color: #fff;
     border-radius: 7px;
     position: fixed;
@@ -80,7 +81,7 @@
         border-radius: 8px;
 
         h2 {
-            font-size: 2.6rem;
+            font-size: 2.4rem;
             color: #363e51;
         }
 
@@ -99,16 +100,16 @@
         display: flex;
         align-items: center;
         margin: 20px;
-      }
+    }
 
-      .attempt {
+    .attempt {
         width: 30px;
         text-align: center;
         font-weight: bold;
         font-family: "SUIT-Regular";
-      }
+    }
 
-      .progressBar {
+    .progressBar {
         width: 460px;
         background-color: #E7EBF1;
         border-radius: 10px;
@@ -116,15 +117,15 @@
         height: 25px;
         margin: 0 10px;
         position: relative;
-      }
+    }
 
-      .progress {
-        background-color: #c0d1fa; 
+    .progress {
+        background-color: #c0d1fa;
         height: 100%;
         border-radius: 10px;
-      }
-      
-      .percentage {
+    }
+
+    .percentage {
         width: 40px;
         text-align: center;
         position: absolute;
@@ -132,13 +133,20 @@
         font-size: 0.8rem;
         font-family: "SUIT-Regular";
         font-weight: 500;
-      }
-      
-      .count {
+    }
+
+    .count {
         width: 30px;
         text-align: center;
-      }
-      
+    }
+}
+
+.resetBtnContainer {
+    margin-top: 20px;
+    button {
+        width: 100px;
+    }
+
 }
 
 .dark-mode {
@@ -152,8 +160,79 @@
     .distributionContainer {
         color: #fff;
     }
-    
+
     .percentage {
         color: #000;
+    }
+}
+
+@media (max-width: 768px) {
+    .statisticsModal {
+        width: 100%;
+        max-width: none;
+        padding: 20px;
+    }
+
+    .statsContainer {
+        flex-direction: row;
+        gap: 10px;
+        width: 60%;
+        .statsItem {
+            p {
+                font-size: 0.7rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+        }
+    }
+
+    .distributionContainer {
+        .distributionRow {
+            flex-direction: row;
+            margin: 20px 0;
+        }
+
+        .progressBar {
+            width: 250px;
+            height: 40px;
+        }
+
+        .attempt, .percentage, .count {
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .percentage {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .statisticsModal {
+        padding: 10px;
+    }
+
+    .modalHeaderStat {
+        width: 90%;
+        font-size: 1.2rem;
+    }
+
+    .statsContainer {
+        padding: 10px;
+    }
+
+    .distributionContainer {
+        margin-top: 10px;
+
+        .progressBar {
+            height: 20px;
+        }
+
+        .percentage, .count {
+            font-size: 0.6rem;
+        }
     }
 }

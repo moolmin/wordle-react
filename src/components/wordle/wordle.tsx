@@ -1,18 +1,22 @@
-import { useState, useRef, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import './wordle.scss';
-import Row from '@components/row/row';
-import { LETTERS } from '@/constants/letters';
-import { checkWordExists } from '@/service/dictionaryService';
-import Keyboard from '@components/keyboard/keyboard';
+import { useState, useRef, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import './wordle.scss'
+import Row from '@components/row/row'
+import { LETTERS } from '@/constants/letters'
+import { checkWordExists } from '@/service/dictionaryService'
+import Keyboard from '@components/keyboard/keyboard'
+import AnswerModal from '@components/modals/answerModal/answerModal'
 
 export default function Wordle() {
-  const { encodedWord } = useParams();
-  const SOLUTION = encodedWord ? atob(encodedWord).toLowerCase() : '';
+  const { encodedWord } = useParams()
+  const SOLUTION = encodedWord ? atob(encodedWord).toLowerCase() : ''
 
-  useEffect(() => {
-    console.log('Decoded SOLUTION:', SOLUTION);
-  }, [SOLUTION]);
+  const initialStats = JSON.parse(localStorage.getItem('statistics') || '{}')
+  const [stats, setStats] = useState({
+    total: initialStats.total || 0,
+    win: initialStats.win || 0,
+    distribution: initialStats.distribution || [0, 0, 0, 0, 0, 0],
+  })
 
   const [guesses, setGuesses] = useState<string[]>([
     '     ',
@@ -30,24 +34,51 @@ export default function Wordle() {
   const [correctLetters, setCorrectLetters] = useState<string[]>([])
   const [presentLetters, setPresentLetters] = useState<string[]>([])
   const [absentLetters, setAbsentLetters] = useState<string[]>([])
+  const [showAnswerModal, setShowAnswerModal] = useState(false)
 
   const wordleRef = useRef<HTMLDivElement>(null)
 
+  const getDecodedWord = () => {
+    const encodedWord = location.pathname.split('/').pop()
+    return encodedWord ? atob(encodedWord) : 'UNKNOWN'
+  }
+
   useEffect(() => {
     if (wordleRef.current) {
-      wordleRef.current.focus();
+      wordleRef.current.focus()
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     if (notification) {
       const timer = setTimeout(() => {
-        setNotification('');
-      }, 2000);
+        setNotification('')
+      }, 2000)
 
-      return () => clearTimeout(timer); 
+      return () => clearTimeout(timer)
     }
-  }, [notification]);
+  }, [notification])
+
+  const updateStats = (attemptCount: number, isCorrect: boolean) => {
+    const newStats = {
+      total: stats.total + 1,
+      win: isCorrect ? stats.win + 1 : stats.win,
+      distribution: stats.distribution.map((count: number, index: number) =>
+        index === attemptCount ? count + 1 : count
+      ),
+    }
+
+    setStats(newStats)
+
+    localStorage.setItem('statistics', JSON.stringify(newStats))
+  }
+
+  useEffect(() => {
+    if (solutionFound || activeRowIndex === 6) {
+      updateStats(activeRowIndex, solutionFound)
+      setShowAnswerModal(true)
+    }
+  }, [solutionFound, activeRowIndex])
 
   const typeLetter = (letter: string) => {
     if (activeLetterIndex < 5) {
@@ -63,7 +94,7 @@ export default function Wordle() {
       setGuesses(newGuesses)
       setActiveLetterIndex((index) => index + 1)
     }
-  };
+  }
 
   const replaceCharacter = (
     str: string,
@@ -84,14 +115,14 @@ export default function Wordle() {
       } else if (failedGuesses.includes(currentGuess)) {
         setNotification('이미 시도한 단어입니다')
       } else if (currentGuess === SOLUTION) {
-        setSolutionFound(true);
-        setNotification('정답입니다!');
-        setCorrectLetters([...SOLUTION]);
+        setSolutionFound(true)
+        setNotification('정답입니다!')
+        setCorrectLetters([...SOLUTION])
       } else {
-        let newCorrectLetters: string[] = [];
+        let newCorrectLetters: string[] = []
 
         currentGuess.split('').forEach((letter, index) => {
-          if (SOLUTION[index] === letter) newCorrectLetters.push(letter);
+          if (SOLUTION[index] === letter) newCorrectLetters.push(letter)
         })
 
         setCorrectLetters([
@@ -116,20 +147,20 @@ export default function Wordle() {
           ]),
         ])
 
-        setFailedGuesses([...failedGuesses, currentGuess]);
-        setActiveRowIndex((index) => index + 1);
-        setActiveLetterIndex(0);
+        setFailedGuesses([...failedGuesses, currentGuess])
+        setActiveRowIndex((index) => index + 1)
+        setActiveLetterIndex(0)
       }
     } else {
-      setNotification('5글자가 아닙니다');
+      setNotification('5글자가 아닙니다')
     }
   }
 
   const hitBackspace = () => {
-    setNotification('');
+    setNotification('')
 
     if (activeLetterIndex > 0) {
-      const newGuesses = [...guesses];
+      const newGuesses = [...guesses]
 
       newGuesses[activeRowIndex] = replaceCharacter(
         newGuesses[activeRowIndex],
@@ -137,26 +168,26 @@ export default function Wordle() {
         ' '
       )
 
-      setGuesses(newGuesses);
-      setActiveLetterIndex((index) => index - 1);
+      setGuesses(newGuesses)
+      setActiveLetterIndex((index) => index - 1)
     }
   }
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (solutionFound) return;
+    if (solutionFound) return
 
     if (LETTERS.includes(event.key)) {
-      typeLetter(event.key);
-      return;
+      typeLetter(event.key)
+      return
     }
 
     if (event.key === 'Enter') {
-      hitEnter();
-      return;
+      hitEnter()
+      return
     }
 
     if (event.key === 'Backspace') {
-      hitBackspace();
+      hitBackspace()
     }
   }
 
@@ -169,7 +200,7 @@ export default function Wordle() {
       onKeyDown={handleKeyDown}
     >
       {notification && (
-        <div className="modal">
+        <div className='modal'>
           <p>{notification}</p>
         </div>
       )}
@@ -200,6 +231,12 @@ export default function Wordle() {
         hitEnter={hitEnter}
         hitBackspace={hitBackspace}
       />
+      {showAnswerModal && (
+        <AnswerModal
+          decodedWord={getDecodedWord()}
+          onClose={() => setShowAnswerModal(false)}
+        />
+      )}
     </div>
   )
 }
