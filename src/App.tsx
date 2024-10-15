@@ -16,7 +16,7 @@ const router = createBrowserRouter([
         element: <Landing />,
       },
       {
-        path: 'game/:encodedWord', 
+        path: 'wordle/:encodedWord', 
         element: <Game />,
       },
     ],

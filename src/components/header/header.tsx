@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react'
 import './header.scss'
 import { House, ChartColumnBig, Moon, Sun, CircleHelp } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
+import AnswerModal from '@components/modals/answerModal'
 
 export default function Header() {
   const navigate = useNavigate()
+  const location = useLocation()
+
   const [isDarkMode, setDarkMode] = useState(false)
+  const [showAnswerModal, setShowAnswerModal] = useState(false)
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme')
@@ -27,18 +31,31 @@ export default function Header() {
     }
   }
 
+  const getDecodedWord = () => {
+    const encodedWord = location.pathname.split('/').pop()
+    return encodedWord ? atob(encodedWord) : 'UNKNOWN'
+  }
+
+  const isGamePath = () => {
+    return location.pathname.startsWith('/wordle')
+  }
+
   return (
     <div className='header'>
-      <div className='left-buttons'>
-        <button
-          onClick={() => {
-            navigate('/')
-          }}
-        >
-          <House />
-        </button>
-        <button className='answer'>정답확인</button>
-      </div>
+      {isGamePath() && (
+        <div className='left-buttons'>
+          <button
+            onClick={() => {
+              navigate('/')
+            }}
+          >
+            <House />
+          </button>
+          <button className='answer' onClick={() => setShowAnswerModal(true)}>
+            정답확인
+          </button>
+        </div>
+      )}
       <div className='header-title'></div>
       <div className='right-buttons'>
         <button>
@@ -51,6 +68,13 @@ export default function Header() {
           <CircleHelp />
         </button>
       </div>
+
+      {showAnswerModal && (
+        <AnswerModal
+          decodedWord={getDecodedWord()}
+          onClose={() => setShowAnswerModal(false)}
+        />
+      )}
     </div>
   )
 }

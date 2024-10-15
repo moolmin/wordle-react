@@ -142,9 +142,18 @@ table {
 
 .dark-mode {
     background-color: $dark-bgColor;
-}
 
-.dark-mode button {
-    background-color: $dark-button;
-    color: #fff;
+    button {
+        background-color: $dark-button;
+        color: #fff;
+    }
+
+    .header {
+        button {
+            &:hover {
+                background-color: $dark-header-button;
+                color: $dark-header-text;
+            }
+        }
+    }
 }

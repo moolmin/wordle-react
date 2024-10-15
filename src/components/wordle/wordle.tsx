@@ -8,7 +8,7 @@ import Keyboard from '@components/keyboard/keyboard';
 
 export default function Wordle() {
   const { encodedWord } = useParams();
-  const SOLUTION = encodedWord ? atob(encodedWord) : '';
+  const SOLUTION = encodedWord ? atob(encodedWord).toLowerCase() : '';
 
   useEffect(() => {
     console.log('Decoded SOLUTION:', SOLUTION);

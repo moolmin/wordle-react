@@ -1,0 +1,114 @@
+@import "../../constants/color-variable.scss";
+
+.createGameModal {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  width: 350px;
+  height: 270px;
+  font-family: "SUIT-Regular";
+}
+
+.modalHeader {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $modal-header;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  margin-bottom: 30px;
+  position: relative;
+  padding-top: 12px;
+
+}
+
+.modalContent {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.closeButton {
+  position: absolute;
+  right: 6%;
+  top: 10%;
+  background-color: transparent;
+  color: #818AA3;
+
+  &:hover {
+    color: #000;
+    background-color: transparent;
+  }
+}
+
+h2 {
+  margin-bottom: 15px;
+}
+
+input {
+  width: 200px;
+  padding: 10px;
+  font-size: 1.2rem;
+  text-align: center;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+
+  &:focus {
+    border-color: #4caf50;
+  }
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: center;
+}
+
+.modalButtons button {
+  width: 180px;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  background-color: #4caf50;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #45a049;
+  }
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(151, 151, 151, 0.5);
+  z-index: 1000;
+}
+
+.dark-mode {
+  .createGameModal {
+    background-color: $dark-modal-bgColor;
+    color: #fff;
+  }
+}

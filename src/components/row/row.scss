@@ -67,13 +67,16 @@
     .present {
       .back {
         background-color: $present-color;
+        border-color: $present-color;
         color: #ffffff;
+      
       }
     }
   
     .absent {
       .back {
         background-color: $absent-color;
+        border-color: $absent-color;
         color: #ffffff;
       }
     }
@@ -81,6 +84,7 @@
     .correct {
       .back {
         background-color: $correct-color;
+        border-color: $correct-color;
         color: #ffffff;
       }
     }
