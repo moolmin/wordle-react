@@ -1,10 +1,4 @@
-interface KeyContainerProps {
-  letter: string
-  typeLetter: (letter: string) => void
-  isAbsent: boolean
-  isPresent: boolean
-  isCorrect: boolean
-}
+import { KeyContainerProps } from '@/types/types'
 
 export default function KeyItem({
   isAbsent,

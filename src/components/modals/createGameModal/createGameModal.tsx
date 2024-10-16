@@ -3,10 +3,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { checkWordExists } from '@/service/dictionaryService'
 import { X } from 'lucide-react'
-
-interface ModalProps {
-  onClose: () => void
-}
+import { ModalProps } from '@/types/types'
 
 export default function CreateGameModal({ onClose }: ModalProps) {
   const navigate = useNavigate()

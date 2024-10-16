@@ -13,7 +13,7 @@ export default function Header() {
   const [isDarkMode, setDarkMode] = useState(false)
   const [showGameOverModal, setShowGameOverModal] = useState(false)
   const [showStatisticsModal, setShowStatisticsModal] = useState(false)
-  const [showHelpModal, setShowHelpModal] = useState(false) // New state for HelpModal
+  const [showHelpModal, setShowHelpModal] = useState(false) 
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme')
@@ -44,11 +44,6 @@ export default function Header() {
     }
   }
 
-  const getDecodedWord = () => {
-    const encodedWord = location.pathname.split('/').pop()
-    return encodedWord ? atob(encodedWord) : 'UNKNOWN'
-  }
-
   const isGamePath = () => {
     return location.pathname.startsWith('/wordle')
   }
@@ -58,7 +53,7 @@ export default function Header() {
   }
 
   const toggleHelpModal = () => {
-    setShowHelpModal(!showHelpModal) // Toggle HelpModal visibility
+    setShowHelpModal(!showHelpModal) 
   }
 
   useEffect(() => {
@@ -101,7 +96,6 @@ export default function Header() {
       {showGameOverModal && (
         <GameOverModal
           win={false}
-          decodedWord={getDecodedWord()}
           onClose={closeModal}
           onRetry={retryGame}
         />

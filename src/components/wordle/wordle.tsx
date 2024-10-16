@@ -8,12 +8,6 @@ import Keyboard from '@components/keyboard/keyboard'
 import { Timer } from 'lucide-react'
 import GameOverModal from '@components/modals/gameOverModal/gameOverModal'
 
-interface ModalProps {
-  win: boolean
-  onClose: () => void
-  onRetry: () => void
-}
-
 function useTimer(isPlaying: boolean, initialTime: number) {
   const [timer, setTimer] = useState(initialTime)
 
@@ -21,7 +15,7 @@ function useTimer(isPlaying: boolean, initialTime: number) {
     let interval: NodeJS.Timeout | null = null
     if (isPlaying) {
       interval = setInterval(() => {
-        setTimer(prev => prev + 1)
+        setTimer((prev) => prev + 1)
       }, 1000)
     }
     return () => {
@@ -66,19 +60,32 @@ export default function Wordle() {
 
   const [stats, setStats] = useState(initialStats)
   const [guesses, setGuesses] = useState<string[]>(initialHistory.guesses)
-  const [solutionFound, setSolutionFound] = useState(initialHistory.solutionFound)
-  const [activeLetterIndex, setActiveLetterIndex] = useState(initialHistory.activeLetterIndex)
+  const [solutionFound, setSolutionFound] = useState(
+    initialHistory.solutionFound
+  )
+  const [activeLetterIndex, setActiveLetterIndex] = useState(
+    initialHistory.activeLetterIndex
+  )
   const [notification, setNotification] = useState('')
-  const [activeRowIndex, setActiveRowIndex] = useState(initialHistory.activeRowIndex)
-  const [failedGuesses, setFailedGuesses] = useState<string[]>(initialHistory.failedGuesses)
-  const [correctLetters, setCorrectLetters] = useState<string[]>(initialHistory.correctLetters)
-  const [presentLetters, setPresentLetters] = useState<string[]>(initialHistory.presentLetters)
-  const [absentLetters, setAbsentLetters] = useState<string[]>(initialHistory.absentLetters)
+  const [activeRowIndex, setActiveRowIndex] = useState(
+    initialHistory.activeRowIndex
+  )
+  const [failedGuesses, setFailedGuesses] = useState<string[]>(
+    initialHistory.failedGuesses
+  )
+  const [correctLetters, setCorrectLetters] = useState<string[]>(
+    initialHistory.correctLetters
+  )
+  const [presentLetters, setPresentLetters] = useState<string[]>(
+    initialHistory.presentLetters
+  )
+  const [absentLetters, setAbsentLetters] = useState<string[]>(
+    initialHistory.absentLetters
+  )
   const [showGameOverModal, setShowGameOverModal] = useState(false)
   const [win, setWin] = useState(false)
   const [isPlaying, setIsPlaying] = useState(initialHistory.isPlaying)
 
-  // 타이머 훅 사용
   const { timer } = useTimer(isPlaying, initialHistory.timer)
 
   const wordleRef = useRef<HTMLDivElement>(null)
@@ -114,7 +121,7 @@ export default function Wordle() {
     const newStats = {
       total: stats.total + 1,
       win: isCorrect ? stats.win + 1 : stats.win,
-      distribution: stats.distribution.map((count, index) =>
+      distribution: stats.distribution.map((count: number, index: number) =>
         index === attemptCount ? count + 1 : count
       ),
     }
@@ -150,9 +157,13 @@ export default function Wordle() {
   const typeLetter = (letter: string) => {
     if (activeLetterIndex < 5) {
       const newGuesses = [...guesses]
-      newGuesses[activeRowIndex] = replaceCharacter(newGuesses[activeRowIndex], activeLetterIndex, letter)
+      newGuesses[activeRowIndex] = replaceCharacter(
+        newGuesses[activeRowIndex],
+        activeLetterIndex,
+        letter
+      )
       setGuesses(newGuesses)
-      setActiveLetterIndex((index) => index + 1)
+      setActiveLetterIndex((index: number) => index + 1)
       saveGameState()
     }
   }
@@ -185,13 +196,21 @@ export default function Wordle() {
 
     setCorrectLetters([...new Set([...correctLetters, ...newCorrectLetters])])
     setPresentLetters([
-      ...new Set([...presentLetters, ...currentGuess.split('').filter((letter) => SOLUTION.includes(letter))]),
+      ...new Set([
+        ...presentLetters,
+        ...currentGuess.split('').filter((letter) => SOLUTION.includes(letter)),
+      ]),
     ])
     setAbsentLetters([
-      ...new Set([...absentLetters, ...currentGuess.split('').filter((letter) => !SOLUTION.includes(letter))]),
+      ...new Set([
+        ...absentLetters,
+        ...currentGuess
+          .split('')
+          .filter((letter) => !SOLUTION.includes(letter)),
+      ]),
     ])
     setFailedGuesses([...failedGuesses, currentGuess])
-    setActiveRowIndex((index) => index + 1)
+    setActiveRowIndex((index: number) => index + 1)
     setActiveLetterIndex(0)
     saveGameState()
   }
@@ -199,9 +218,13 @@ export default function Wordle() {
   const hitBackspace = () => {
     if (activeLetterIndex > 0) {
       const newGuesses = [...guesses]
-      newGuesses[activeRowIndex] = replaceCharacter(newGuesses[activeRowIndex], activeLetterIndex - 1, ' ')
+      newGuesses[activeRowIndex] = replaceCharacter(
+        newGuesses[activeRowIndex],
+        activeLetterIndex - 1,
+        ' '
+      )
       setGuesses(newGuesses)
-      setActiveLetterIndex((index) => index - 1)
+      setActiveLetterIndex((index: number) => index - 1)
       saveGameState()
     }
   }
@@ -214,13 +237,23 @@ export default function Wordle() {
   }
 
   return (
-    <div className='wordle' ref={wordleRef} tabIndex={0} onBlur={(e) => e.target.focus()} onKeyDown={handleKeyDown}>
+    <div
+      className='wordle'
+      ref={wordleRef}
+      tabIndex={0}
+      onBlur={(e) => e.target.focus()}
+      onKeyDown={handleKeyDown}
+    >
       <div className='timer'>
         <Timer />
         <p>{isPlaying ? formatTime(timer) : '--:--'}</p>
       </div>
 
-      {notification && <div className='modal'><p>{notification}</p></div>}
+      {notification && (
+        <div className='modal'>
+          <p>{notification}</p>
+        </div>
+      )}
 
       {guesses.map((guess, index) => (
         <Row
@@ -229,13 +262,35 @@ export default function Wordle() {
           presentLetters={presentLetters}
           correctLetters={correctLetters}
           absentLetters={absentLetters}
-          applyRotation={activeRowIndex > index || (solutionFound && activeRowIndex === index)}
+          applyRotation={
+            activeRowIndex > index ||
+            (solutionFound && activeRowIndex === index)
+          }
           solution={SOLUTION}
-          status={index < activeRowIndex ? 'complete' : index === activeRowIndex ? 'active' : 'pending'}
+          status={
+            index < activeRowIndex
+              ? 'complete'
+              : index === activeRowIndex
+                ? 'active'
+                : 'pending'
+          }
         />
       ))}
-      <Keyboard presentLetters={presentLetters} correctLetters={correctLetters} absentLetters={absentLetters} typeLetter={typeLetter} hitEnter={hitEnter} hitBackspace={hitBackspace} />
-      {showGameOverModal && <GameOverModal win={win} onClose={() => setShowGameOverModal(false)} onRetry={() => window.location.reload()} />}
+      <Keyboard
+        presentLetters={presentLetters}
+        correctLetters={correctLetters}
+        absentLetters={absentLetters}
+        typeLetter={typeLetter}
+        hitEnter={hitEnter}
+        hitBackspace={hitBackspace}
+      />
+      {showGameOverModal && (
+        <GameOverModal
+          win={win}
+          onClose={() => setShowGameOverModal(false)}
+          onRetry={() => window.location.reload()}
+        />
+      )}
     </div>
   )
 }

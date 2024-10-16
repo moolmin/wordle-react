@@ -1,16 +1,6 @@
 import { useState, useEffect } from 'react'
 import './row.scss'
-
-interface RowProps {
-  word: string
-  solution: string
-  presentLetters?: string[]
-  correctLetters?: string[]
-  absentLetters?: string[]
-  applyRotation?: boolean
-  bounceOnError?: boolean
-  status?: 'complete' | 'active' | 'pending'
-}
+import { RowProps } from '@/types/types'
 
 export default function Row({
   word,

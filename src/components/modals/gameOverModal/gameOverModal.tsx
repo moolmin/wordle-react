@@ -1,17 +1,6 @@
 import './gameOverModal.scss'
 import { useEffect, useState } from 'react'
-
-interface ModalProps {
-  win: boolean
-  decodedWord: string
-  onRetry: () => void
-}
-
-interface Statistics {
-  total: number
-  win: number
-  distribution: number[]
-}
+import { ModalProps, Statistics } from '@/types/types'
 
 export default function GameOverModal({ win, onRetry }: ModalProps) {
   const [statistics, setStatistics] = useState<Statistics>({
@@ -40,20 +29,19 @@ export default function GameOverModal({ win, onRetry }: ModalProps) {
       ? Math.floor((statistics.win / statistics.total) * 100)
       : 0
 
-      const distributionSum = statistics.distribution.reduce(
-        (sum, value) => sum + value,
-        0
-      )
-      
-      const distributionData = statistics.distribution.map((count, index) => {
-        const percentage =
-          distributionSum > 0 ? (count / distributionSum) * 100 : 0
-        return {
-          attempt: index + 1,
-          percentage: percentage.toFixed(1),
-          count: count,
-        }
-      })
+  const distributionSum = statistics.distribution.reduce(
+    (sum, value) => sum + value,
+    0
+  )
+
+  const distributionData = statistics.distribution.map((count, index) => {
+    const percentage = distributionSum > 0 ? (count / distributionSum) * 100 : 0
+    return {
+      attempt: index + 1,
+      percentage: percentage.toFixed(1),
+      count: count,
+    }
+  })
 
   const handleShare = () => {
     const currentUrl = window.location.href

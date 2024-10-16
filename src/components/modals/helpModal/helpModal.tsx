@@ -1,14 +1,6 @@
 import './helpModal.scss'
 import { X } from 'lucide-react'
-
-interface ModalProps {
-  onClose: () => void
-}
-
-interface LetterStatus {
-  letter: string
-  status: 'absent' | 'present' | 'correct'
-}
+import { ModalProps, LetterStatus } from '@/types/types'
 
 const LetterBlock = ({ letter, status }: LetterStatus) => {
   return <div className={status}>{letter}</div>
@@ -87,7 +79,7 @@ export default function HelpModal({ onClose }: ModalProps) {
             </div>
           </div>
           <div className='lastInstruction'>
-            <p>타켓 단어를 찾기위한 다른 시도입니다.</p>
+            <p>타켓 단어를 찾기위한 또 다른 시도입니다.</p>
             <div className='example'>
               {exampleWords2.map((word, index) => (
                 <LetterBlock key={index} {...word} />

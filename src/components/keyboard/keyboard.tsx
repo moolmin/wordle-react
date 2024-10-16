@@ -2,15 +2,7 @@ import './keyboard.scss'
 import { LETTERS } from '@/constants/letters'
 import KeyItem from '@components/keyItem/keyItem'
 import { Delete } from 'lucide-react'
-
-interface KeyboardProps {
-  absentLetters: string[]
-  presentLetters: string[]
-  correctLetters: string[]
-  typeLetter: (letter: string) => void
-  hitEnter: () => void
-  hitBackspace: () => void
-}
+import { KeyboardProps } from '@/types/types'
 
 export default function Keyboard({
   absentLetters,
