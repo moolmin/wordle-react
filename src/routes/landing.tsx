@@ -1,7 +1,7 @@
-import './landing.scss';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import CreateGameModal from '@/components/modals/createGameModal/createGameModal';
+import './landing.scss'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import CreateGameModal from '@/components/modals/createGameModal/createGameModal'
 
 export default function Landing() {
   const navigate = useNavigate()
@@ -11,6 +11,20 @@ export default function Landing() {
   const handleStart = () => {
     const word = 'world'
     const encodedWord = btoa(word)
+
+    const storedStats = localStorage.getItem('statistics')
+    let stats = {
+      total: 0,
+      win: 0,
+      distribution: [0, 0, 0, 0, 0, 0],
+    }
+
+    if (storedStats) {
+      stats = JSON.parse(storedStats)
+    }
+
+    stats.total += 1
+    localStorage.setItem('statistics', JSON.stringify(stats))
     navigate(`/wordle/${encodedWord}`)
   }
 

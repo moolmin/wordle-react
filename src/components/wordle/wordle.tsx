@@ -5,49 +5,91 @@ import Row from '@components/row/row'
 import { LETTERS } from '@/constants/letters'
 import { checkWordExists } from '@/service/dictionaryService'
 import Keyboard from '@components/keyboard/keyboard'
-import AnswerModal from '@components/modals/answerModal/answerModal'
+import { Timer } from 'lucide-react'
+import GameOverModal from '@components/modals/gameOverModal/gameOverModal'
 
 export default function Wordle() {
   const { encodedWord } = useParams()
   const SOLUTION = encodedWord ? atob(encodedWord).toLowerCase() : ''
 
   const initialStats = JSON.parse(localStorage.getItem('statistics') || '{}')
+  const initialHistory = JSON.parse(localStorage.getItem('history') || '{}')
+
   const [stats, setStats] = useState({
     total: initialStats.total || 0,
     win: initialStats.win || 0,
     distribution: initialStats.distribution || [0, 0, 0, 0, 0, 0],
   })
 
-  const [guesses, setGuesses] = useState<string[]>([
-    '     ',
-    '     ',
-    '     ',
-    '     ',
-    '     ',
-    '     ',
-  ])
-  const [solutionFound, setSolutionFound] = useState(false)
-  const [activeLetterIndex, setActiveLetterIndex] = useState(0)
+  const [guesses, setGuesses] = useState<string[]>(
+    initialHistory.guesses || [
+      '     ',
+      '     ',
+      '     ',
+      '     ',
+      '     ',
+      '     ',
+    ]
+  )
+  const [solutionFound, setSolutionFound] = useState(
+    initialHistory.solutionFound || false
+  )
+  const [activeLetterIndex, setActiveLetterIndex] = useState(
+    initialHistory.activeLetterIndex || 0
+  )
   const [notification, setNotification] = useState('')
-  const [activeRowIndex, setActiveRowIndex] = useState(0)
-  const [failedGuesses, setFailedGuesses] = useState<string[]>([])
-  const [correctLetters, setCorrectLetters] = useState<string[]>([])
-  const [presentLetters, setPresentLetters] = useState<string[]>([])
-  const [absentLetters, setAbsentLetters] = useState<string[]>([])
-  const [showAnswerModal, setShowAnswerModal] = useState(false)
+  const [activeRowIndex, setActiveRowIndex] = useState(
+    initialHistory.activeRowIndex || 0
+  )
+  const [failedGuesses, setFailedGuesses] = useState<string[]>(
+    initialHistory.failedGuesses || []
+  )
+  const [correctLetters, setCorrectLetters] = useState<string[]>(
+    initialHistory.correctLetters || []
+  )
+  const [presentLetters, setPresentLetters] = useState<string[]>(
+    initialHistory.presentLetters || []
+  )
+  const [absentLetters, setAbsentLetters] = useState<string[]>(
+    initialHistory.absentLetters || []
+  )
+  const [showGameOverModal, setShowGameOverModal] = useState(false)
+  const [win, setWin] = useState(false)
+
+  const [timer, setTimer] = useState(initialHistory.timer || 0)
+  const [isPlaying, setIsPlaying] = useState(
+    initialHistory.isPlaying !== undefined ? initialHistory.isPlaying : false
+  )
 
   const wordleRef = useRef<HTMLDivElement>(null)
-
-  const getDecodedWord = () => {
-    const encodedWord = location.pathname.split('/').pop()
-    return encodedWord ? atob(encodedWord) : 'UNKNOWN'
-  }
 
   useEffect(() => {
     if (wordleRef.current) {
       wordleRef.current.focus()
     }
-  }, [])
+
+    let interval: NodeJS.Timeout | null = null
+
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setTimer((prev: number) => {
+          const newTime = prev + 1
+          const history = JSON.parse(localStorage.getItem('history') || '{}')
+          localStorage.setItem(
+            'history',
+            JSON.stringify({ ...history, timer: newTime })
+          )
+          return newTime
+        })
+      }, 1000)
+    } else {
+      if (interval) clearInterval(interval)
+    }
+
+    return () => {
+      if (interval) clearInterval(interval)
+    }
+  }, [isPlaying])
 
   useEffect(() => {
     if (notification) {
@@ -59,6 +101,22 @@ export default function Wordle() {
     }
   }, [notification])
 
+  const saveGameState = () => {
+    const gameState = {
+      guesses,
+      solutionFound,
+      activeLetterIndex,
+      activeRowIndex,
+      failedGuesses,
+      correctLetters,
+      presentLetters,
+      absentLetters,
+      timer,
+      isPlaying,
+    }
+    localStorage.setItem('history', JSON.stringify(gameState))
+  }
+
   const updateStats = (attemptCount: number, isCorrect: boolean) => {
     const newStats = {
       total: stats.total + 1,
@@ -69,31 +127,61 @@ export default function Wordle() {
     }
 
     setStats(newStats)
-
     localStorage.setItem('statistics', JSON.stringify(newStats))
+  }
+
+  const endGame = (didWin: boolean) => {
+    setWin(didWin)
+    setShowGameOverModal(true)
+    setIsPlaying(false)
+    const history = JSON.parse(localStorage.getItem('history') || '{}')
+    localStorage.setItem(
+      'history',
+      JSON.stringify({ ...history, isPlaying: false })
+    )
   }
 
   useEffect(() => {
     if (solutionFound || activeRowIndex === 6) {
       updateStats(activeRowIndex, solutionFound)
-      setShowAnswerModal(true)
+      endGame(solutionFound)
     }
   }, [solutionFound, activeRowIndex])
+
+  useEffect(() => {
+    if (!isPlaying) {
+      const startGame = () => {
+        setIsPlaying(true)
+        const history = JSON.parse(localStorage.getItem('history') || '{}')
+        localStorage.setItem(
+          'history',
+          JSON.stringify({ ...history, isPlaying: true })
+        )
+      }
+
+      startGame()
+    }
+  }, [])
 
   const typeLetter = (letter: string) => {
     if (activeLetterIndex < 5) {
       setNotification('')
-
       const newGuesses = [...guesses]
       newGuesses[activeRowIndex] = replaceCharacter(
         newGuesses[activeRowIndex],
         activeLetterIndex,
         letter
       )
-
       setGuesses(newGuesses)
-      setActiveLetterIndex((index) => index + 1)
+      setActiveLetterIndex((index: number) => index + 1)
+      saveGameState()
     }
+  }
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
   }
 
   const replaceCharacter = (
@@ -148,8 +236,9 @@ export default function Wordle() {
         ])
 
         setFailedGuesses([...failedGuesses, currentGuess])
-        setActiveRowIndex((index) => index + 1)
+        setActiveRowIndex((index: number) => index + 1)
         setActiveLetterIndex(0)
+        saveGameState()
       }
     } else {
       setNotification('5글자가 아닙니다')
@@ -158,18 +247,16 @@ export default function Wordle() {
 
   const hitBackspace = () => {
     setNotification('')
-
     if (activeLetterIndex > 0) {
       const newGuesses = [...guesses]
-
       newGuesses[activeRowIndex] = replaceCharacter(
         newGuesses[activeRowIndex],
         activeLetterIndex - 1,
         ' '
       )
-
       setGuesses(newGuesses)
-      setActiveLetterIndex((index) => index - 1)
+      setActiveLetterIndex((index: number) => index - 1)
+      saveGameState()
     }
   }
 
@@ -199,11 +286,17 @@ export default function Wordle() {
       onBlur={(e) => e.target.focus()}
       onKeyDown={handleKeyDown}
     >
+      <div className='timer'>
+        <Timer />
+        <p>{formatTime(timer)}</p>
+      </div>
+
       {notification && (
         <div className='modal'>
           <p>{notification}</p>
         </div>
       )}
+
       {guesses.map((guess, index) => (
         <Row
           key={index}
@@ -231,10 +324,11 @@ export default function Wordle() {
         hitEnter={hitEnter}
         hitBackspace={hitBackspace}
       />
-      {showAnswerModal && (
-        <AnswerModal
-          decodedWord={getDecodedWord()}
-          onClose={() => setShowAnswerModal(false)}
+      {showGameOverModal && (
+        <GameOverModal
+          win={win}
+          onClose={() => setShowGameOverModal(false)}
+          onRetry={() => window.location.reload()}
         />
       )}
     </div>

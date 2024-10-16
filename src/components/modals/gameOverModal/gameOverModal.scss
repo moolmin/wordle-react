@@ -1,12 +1,5 @@
 @import "../../../constants/color-variable.scss";
 
-@font-face {
-    font-family: "SUIT-Regular";
-    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2") format("woff2");
-    font-weight: normal;
-    font-style: normal;
-}
-
 .modalOverlayTransparent {
     position: fixed;
     top: 0;
@@ -17,29 +10,41 @@
     justify-content: center;
     align-items: center;
     z-index: 100;
-
-    .modalContent {
-        width: 560px;
-    }
 }
 
-.statisticsModal {
-    height: 700px;
+.gameOverModal {
+    height: 1000px;
     max-width: 580px;
     width: 100%;
     background-color: #fff;
     border-radius: 7px;
     position: fixed;
-    top: 65px;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 60px;
+
+    .buttonContainer {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+
+        button {
+            width: 140px;
+        }
+    }
 }
 
-.modalHeaderStat {
+.linkCopiedMessage {
+    margin-top: 10px;
+    color: #2196f3;
+}
+
+.modalHeaderGameOver {
     width: 100%;
     border-radius: 7px;
     background-color: $modal-header;
@@ -62,6 +67,21 @@
             color: #000;
             background-color: transparent;
         }
+    }
+}
+
+.modalContent {
+    text-align: center;
+
+    h1 {
+        font-size: 1.6rem;
+        color: #2e3238;
+        margin: 20px;
+    }
+
+    .answer {
+        width: 100%;
+        font-size: 1.2rem;
     }
 }
 
@@ -91,10 +111,9 @@
         }
     }
 }
-
 .distributionContainer {
     margin-top: 20px;
-    color: #2E3238;
+    color: #2e3238;
 
     .distributionRow {
         display: flex;
@@ -111,7 +130,7 @@
 
     .progressBar {
         width: 460px;
-        background-color: #E7EBF1;
+        background-color: #e7ebf1;
         border-radius: 10px;
         flex: 1;
         height: 25px;
@@ -140,16 +159,39 @@
         text-align: center;
     }
 }
-
-.resetBtnContainer {
+.buttonContainer {
+    display: flex;
+    justify-content: space-around;
     margin-top: 20px;
-    button {
-        width: 100px;
-    }
 
+    button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:first-child {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        &:last-child {
+            background-color: #2196f3;
+            color: white;
+        }
+
+        &:hover {
+            opacity: 0.9;
+        }
+    }
 }
 
 .dark-mode {
+    h1 {
+        color: #fff;
+    }
+
     .statsItem {
         background-color: #24273a;
         h2 {
@@ -164,9 +206,17 @@
     .percentage {
         color: #000;
     }
+
+    .answer {
+        color: #fff;
+    }
 }
 
 @media (max-width: 768px) {
+    .modalHeaderGameOver {
+        width: 90%;
+    }
+
     .statisticsModal {
         width: 100%;
         max-width: none;
@@ -198,7 +248,9 @@
             height: 40px;
         }
 
-        .attempt, .percentage, .count {
+        .attempt,
+        .percentage,
+        .count {
             text-align: center;
             font-size: 1rem;
         }
@@ -231,7 +283,8 @@
             height: 20px;
         }
 
-        .percentage, .count {
+        .percentage,
+        .count {
             font-size: 0.6rem;
         }
     }

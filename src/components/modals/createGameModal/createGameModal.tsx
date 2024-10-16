@@ -35,6 +35,20 @@ export default function CreateGameModal({ onClose }: ModalProps) {
       return
     }
 
+    const storedStats = localStorage.getItem('statistics')
+    let stats = {
+      total: 0,
+      win: 0,
+      distribution: [0, 0, 0, 0, 0, 0],
+    }
+
+    if (storedStats) {
+      stats = JSON.parse(storedStats)
+    }
+
+    stats.total += 1
+    localStorage.setItem('statistics', JSON.stringify(stats))
+
     const encodedWord = btoa(inputWord)
     navigate(`/wordle/${encodedWord}`)
     onClose()

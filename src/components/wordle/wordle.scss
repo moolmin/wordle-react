@@ -25,6 +25,29 @@
     &:focus {
         outline: none;
     }
+
+    .timer {
+        color: #000;
+        position: fixed;
+        top: 20px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        p {
+            margin-left: 4px;
+        }
+    }
+}
+
+.letterContainer {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); 
+    gap: 10px;
+    margin-bottom: 20px;
+
+    @media (max-width: 500px) {
+        grid-template-columns: repeat(3, 1fr); 
+    }
 }
 
 .title {
@@ -41,5 +64,11 @@
 
     &--green {
         color: green;
+    }
+}
+
+.dark-mode {
+    .timer {
+        color: #fff;
     }
 }

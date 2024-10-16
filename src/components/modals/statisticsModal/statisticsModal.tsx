@@ -53,10 +53,8 @@ export default function StatisticsModal({ onClose }: ModalProps) {
   const resetStatistics = () => {
     const confirmReset = window.confirm('정말 삭제하시겠습니까?')
     if (confirmReset) {
-      // 로컬 스토리지에서 statistics 삭제
       localStorage.removeItem('statistics')
 
-      // 상태 초기화
       setStatistics({
         total: 0,
         win: 0,
@@ -86,7 +84,7 @@ export default function StatisticsModal({ onClose }: ModalProps) {
             </div>
             <div className='statsItem'>
               <h2>{winRate}%</h2>
-              <p>📈% 정답률</p>
+              <p>📈% 승률</p>
             </div>
           </div>
           <div className='distributionContainer'>
@@ -106,7 +104,9 @@ export default function StatisticsModal({ onClose }: ModalProps) {
             ))}
           </div>
           <div className='resetBtnContainer'>
-            <button onClick={resetStatistics}><p>통계 초기화</p></button>
+            <button onClick={resetStatistics}>
+              <p>통계 초기화</p>
+            </button>
           </div>
         </div>
       </div>
