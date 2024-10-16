@@ -40,15 +40,20 @@ export default function StatisticsModal({ onClose }: ModalProps) {
       ? Math.floor((statistics.win / statistics.total) * 100)
       : 0
 
-  const distributionData = statistics.distribution.map((count, index) => {
-    const percentage =
-      statistics.total > 0 ? (count / statistics.total) * 100 : 0
-    return {
-      attempt: index + 1,
-      percentage: percentage.toFixed(1),
-      count: count,
-    }
-  })
+      const distributionSum = statistics.distribution.reduce(
+        (sum, value) => sum + value,
+        0
+      )
+      
+      const distributionData = statistics.distribution.map((count, index) => {
+        const percentage =
+          distributionSum > 0 ? (count / distributionSum) * 100 : 0
+        return {
+          attempt: index + 1,
+          percentage: percentage.toFixed(1),
+          count: count,
+        }
+      })
 
   const resetStatistics = () => {
     const confirmReset = window.confirm('정말 삭제하시겠습니까?')
@@ -96,6 +101,7 @@ export default function StatisticsModal({ onClose }: ModalProps) {
                   <div
                     className='progress'
                     style={{ width: `${data.percentage}%` }}
+                    // style={{ width: '100%' }}
                   ></div>
                 </div>
                 <span className='percentage'>{data.percentage}%</span>
