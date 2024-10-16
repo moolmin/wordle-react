@@ -44,6 +44,8 @@
     grid-template-columns: repeat(6, 1fr); 
     gap: 10px;
     margin-bottom: 20px;
+    justify-items: center;  
+    align-items: center;   
 
     @media (max-width: 500px) {
         grid-template-columns: repeat(3, 1fr); 

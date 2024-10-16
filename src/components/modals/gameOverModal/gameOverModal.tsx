@@ -59,7 +59,7 @@ export default function GameOverModal({ win, onRetry }: ModalProps) {
 
   const handleRetry = () => {
     localStorage.removeItem('history')
-    onRetry()
+    onRetry?.()
   }
 
   const getDecodedWord = () => {
@@ -94,7 +94,7 @@ export default function GameOverModal({ win, onRetry }: ModalProps) {
             </div>
             <div className='statsItem'>
               <h2>{winRate}%</h2>
-              <p>📈 승률</p>
+              <p>📈% 승률</p>
             </div>
           </div>
 
@@ -117,7 +117,7 @@ export default function GameOverModal({ win, onRetry }: ModalProps) {
 
           <div className='buttonContainer'>
             <button onClick={handleRetry}>🔄 다시하기</button>
-            <button onClick={handleShare}>📤 공유하기</button>
+            <button className='shareButton' onClick={handleShare}>📤 공유하기</button>
           </div>
           <a href='/'>메인으로</a>
           {linkCopied && (

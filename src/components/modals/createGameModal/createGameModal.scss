@@ -58,11 +58,13 @@
     font-size: 1rem;
     font-family: "SUIT-Regular";
   }
+
+  h2 {
+    margin-bottom: 15px;
+  }
 }
 
-h2 {
-  margin-bottom: 15px;
-}
+
 
 input {
   width: 200px;
@@ -92,7 +94,6 @@ input {
 
 .modalButtons button {
   width: 180px;
-  padding: 10px 20px;
   cursor: pointer;
   border: none;
   background-color: #4caf50;
