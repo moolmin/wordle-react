@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useMemo } from 'react'
 import './row.scss'
 import { RowProps } from '@/types/types'
 
@@ -12,17 +12,13 @@ export default function Row({
   bounceOnError = false,
   status = 'pending',
 }: RowProps) {
-  const [finalColors, setFinalColors] = useState<string[]>([])
-
-  useEffect(() => {
-    if (status === 'complete') {
-      const lockedColors = word.split('').map((letter, index) => {
-        if (solution[index] === letter) return 'correct'
-        if (solution.includes(letter)) return 'present'
-        return 'absent'
-      })
-      setFinalColors(lockedColors)
-    }
+  const finalColors = useMemo(() => {
+    if (status !== 'complete') return []
+    return word.split('').map((letter, index) => {
+      if (solution[index] === letter) return 'correct'
+      if (solution.includes(letter)) return 'present'
+      return 'absent'
+    })
   }, [status, word, solution])
 
   return (
