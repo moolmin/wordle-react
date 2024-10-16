@@ -78,7 +78,7 @@ export default function GameOverModal({ win, onRetry }: ModalProps) {
 
   return (
     <div className='modalOverlayTransparent'>
-      <div className='gameOverModal modalContainer'>
+      <div className='gameOverModal '>
         <div className='modalHeaderGameOver modalHeader'></div>
         <div className='modalContent'>
           <h1>
@@ -126,6 +126,7 @@ export default function GameOverModal({ win, onRetry }: ModalProps) {
             <button onClick={handleRetry}>🔄 다시하기</button>
             <button onClick={handleShare}>📤 공유하기</button>
           </div>
+          <a href='/'>메인으로</a>
           {linkCopied && (
             <p className='linkCopiedMessage'>링크가 복사되었습니다.</p>
           )}

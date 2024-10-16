@@ -4,6 +4,7 @@ import { House, ChartColumnBig, Moon, Sun, CircleHelp } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import GameOverModal from '@components/modals/gameOverModal/gameOverModal'
 import StatisticsModal from '@components/modals/statisticsModal/statisticsModal'
+import HelpModal from '@components/modals/helpModal/helpModal'
 
 export default function Header() {
   const navigate = useNavigate()
@@ -12,6 +13,7 @@ export default function Header() {
   const [isDarkMode, setDarkMode] = useState(false)
   const [showGameOverModal, setShowGameOverModal] = useState(false)
   const [showStatisticsModal, setShowStatisticsModal] = useState(false)
+  const [showHelpModal, setShowHelpModal] = useState(false) // New state for HelpModal
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme')
@@ -55,6 +57,10 @@ export default function Header() {
     setShowStatisticsModal(!showStatisticsModal)
   }
 
+  const toggleHelpModal = () => {
+    setShowHelpModal(!showHelpModal) // Toggle HelpModal visibility
+  }
+
   useEffect(() => {
     if (showGameOverModal) {
       const history = JSON.parse(localStorage.getItem('history') || '{}')
@@ -87,7 +93,7 @@ export default function Header() {
         <button onClick={toggleDarkMode}>
           {isDarkMode ? <Sun /> : <Moon />}
         </button>
-        <button>
+        <button onClick={toggleHelpModal}>
           <CircleHelp />
         </button>
       </div>
@@ -104,6 +110,8 @@ export default function Header() {
       {showStatisticsModal && (
         <StatisticsModal onClose={() => setShowStatisticsModal(false)} />
       )}
+
+      {showHelpModal && <HelpModal onClose={toggleHelpModal} />}
     </div>
   )
 }

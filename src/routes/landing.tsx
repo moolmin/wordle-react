@@ -1,5 +1,5 @@
 import './landing.scss'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CreateGameModal from '@/components/modals/createGameModal/createGameModal'
 
@@ -7,6 +7,10 @@ export default function Landing() {
   const navigate = useNavigate()
   const letters = ['W', 'O', 'R', 'D', 'L', 'E']
   const [showCreateGameModal, setShowCreateGameModal] = useState(false)
+
+  useEffect(() => {
+    localStorage.removeItem('history')
+  }, [])
 
   const handleStart = () => {
     const word = 'world'

@@ -7,6 +7,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: "SUIT-Regular";
+    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+}
+
 html,
 body,
 div,
@@ -140,6 +147,31 @@ table {
     border-spacing: 0;
 }
 
+a {
+    font-family: "SUIT-Regular";
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.absent {
+    background-color: $absent-color;
+}
+
+.present {
+    background-color: $present-color;
+}
+
+.correct {
+    background-color: $correct-color;
+}
+
+.bold {
+    font-weight: 800;
+}
+
 .dark-mode {
     background-color: $dark-bgColor;
 
@@ -156,14 +188,17 @@ table {
             }
         }
     }
-    
+
     .modalContainer {
-        background-color: #13141C;
+        background-color: #13141c;
     }
 
     .modalHeader {
         background-color: #313447;
         color: #fff;
     }
-}
 
+    a {
+        color: #fff;
+    }
+}

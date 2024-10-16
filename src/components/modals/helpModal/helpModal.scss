@@ -1,0 +1,193 @@
+@import "../../../constants/color-variable.scss";
+
+.modalOverlayTransparent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+
+    .modalContent {
+        width: 560px;
+    }
+}
+
+.helpModal {
+    height: 700px;
+    max-width: 580px;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 7px;
+    position: fixed;
+    top: 65px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    p {
+        font-size: 0.9rem;
+    }
+
+    .modalContent {
+        margin-top: 20px;
+
+        .example {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+
+            .absent {
+                background-color: $absent-color;
+            }
+
+            .present {
+                background-color: $present-color;
+            }
+
+            .correct {
+                background-color: $correct-color;
+            }
+
+            div {
+                width: 48px;
+                height: 48px;
+                background-color: red;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 5px;
+                color: #fff;
+                font-size: 1.3rem;
+            }
+        }
+
+        .instruction {
+            font-weight: 400;
+            width: 80%;
+            max-width: 440px;
+            height: 120px;
+            background-color: #edf0f4;
+            border-radius: 10px;
+            margin: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-left: 20px;
+            color: #000;
+            gap: 8px;
+
+            .row {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+
+                span {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 20px;
+                    height: 20px;
+                    font-size: 0.8rem;
+                    color: #fff;
+                    border-radius: 3px;
+                }
+
+                p {
+                    font-size: 0.9rem;
+                }
+            }
+        }
+
+        .lastInstruction {
+            p {
+                margin: 10px;
+            }
+        }
+    }
+}
+
+.dark-mode {
+    .helpModal {
+        background-color: $dark-bgColor;
+        color: #fff;
+    }
+}
+
+@media (max-width: 768px) {
+    .helpModal {
+        height: 600px;
+        max-width: 90%;
+        p {
+            font-size: 0.85rem;
+        }
+
+        .modalContent {
+            .example div {
+                width: 42px;
+                height: 42px;
+                font-size: 1.1rem;
+            }
+
+            .instruction {
+                width: 90%;
+                height: 110px;
+
+                .row span {
+                    width: 18px;
+                    height: 18px;
+                    font-size: 0.75rem;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .helpModal {
+        height: auto;
+        max-width: 95%;
+        padding: 10px;
+
+        p {
+            font-size: 0.8rem;
+        }
+
+        .modalContent {
+            .example {
+                gap: 4px;
+
+                div {
+                    width: 36px;
+                    height: 36px;
+                    font-size: 1rem;
+                }
+            }
+
+            .instruction {
+                width: 55%;
+                padding-left: 15px;
+                height: 100px;
+                gap: 6px;
+                font-size: 0.6rem;
+
+                .row span {
+                    width: 16px;
+                    height: 16px;
+                    font-size: 0.7rem;
+                }
+
+                p {
+                    font-size: 0.8rem;
+                }
+            }
+        }
+    }
+}

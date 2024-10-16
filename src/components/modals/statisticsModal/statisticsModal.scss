@@ -39,7 +39,7 @@
     align-items: center;
 }
 
-.modalHeaderStat {
+.modalHeader {
     width: 100%;
     border-radius: 7px;
     background-color: $modal-header;
@@ -150,6 +150,9 @@
 }
 
 .dark-mode {
+    .statisticsModal {
+        background-color: $dark-bgColor;
+    }
     .statsItem {
         background-color: #24273a;
         h2 {
@@ -168,7 +171,7 @@
 
 @media (max-width: 768px) {
     .statisticsModal {
-        width: 100%;
+        width: 90%;
         max-width: none;
         padding: 20px;
     }
@@ -176,7 +179,7 @@
     .statsContainer {
         flex-direction: row;
         gap: 10px;
-        width: 60%;
+        // width: 80%;
         .statsItem {
             p {
                 font-size: 0.7rem;
@@ -194,8 +197,8 @@
         }
 
         .progressBar {
-            width: 250px;
-            height: 40px;
+            width: 300px;
+            height: 25px;
         }
 
         .attempt, .percentage, .count {
@@ -215,7 +218,7 @@
         padding: 10px;
     }
 
-    .modalHeaderStat {
+    .modalHeader {
         width: 90%;
         font-size: 1.2rem;
     }
@@ -226,6 +229,7 @@
 
     .distributionContainer {
         margin-top: 10px;
+        width: 60%;
 
         .progressBar {
             height: 20px;

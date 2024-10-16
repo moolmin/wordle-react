@@ -1,50 +1,70 @@
-import "./row.scss"
+import { useState, useEffect } from 'react'
+import './row.scss'
 
 interface RowProps {
-  word: string;
-  solution: string;
-  presentLetters?: string[]; 
-  correctLetters?: string[]; 
-  absentLetters?: string[]; 
-  applyRotation?: boolean;
-  bounceOnError?: boolean;
+  word: string
+  solution: string
+  presentLetters?: string[]
+  correctLetters?: string[]
+  absentLetters?: string[]
+  applyRotation?: boolean
+  bounceOnError?: boolean
+  status?: 'complete' | 'active' | 'pending'
 }
 
 export default function Row({
   word,
-  presentLetters = [], 
-  correctLetters = [], 
-  absentLetters = [], 
+  solution,
+  presentLetters = [],
+  correctLetters = [],
+  absentLetters = [],
   applyRotation = false,
   bounceOnError = false,
+  status = 'pending',
 }: RowProps) {
+  const [finalColors, setFinalColors] = useState<string[]>([])
+
+  useEffect(() => {
+    if (status === 'complete') {
+      const lockedColors = word.split('').map((letter, index) => {
+        if (solution[index] === letter) return 'correct'
+        if (solution.includes(letter)) return 'present'
+        return 'absent'
+      })
+      setFinalColors(lockedColors)
+    }
+  }, [status, word, solution])
+
   return (
-    <div className={`row ${bounceOnError ? "row--bounce" : ""}`}>
-      {word.split("").map((letter, index) => {
-        const bgClass = correctLetters.includes(letter)
-          ? "correct"
-          : presentLetters.includes(letter)
-          ? "present"
-          : absentLetters.includes(letter)
-          ? "absent"
-          : "";
+    <div className={`row ${bounceOnError ? 'row--bounce' : ''}`}>
+      {word.split('').map((letter, index) => {
+        const bgClass =
+          status === 'complete'
+            ? finalColors[index]
+            : correctLetters.includes(letter)
+              ? 'correct'
+              : presentLetters.includes(letter)
+                ? 'present'
+                : absentLetters.includes(letter)
+                  ? 'absent'
+                  : ''
 
         const letterClass = [
-          "letter",
-          bgClass, 
-          applyRotation ? `rotate--${index + 1}00` : "",
-          letter !== " " ? "letter--active" : "",
+          'letter',
+          bgClass,
+          applyRotation ? `rotate--${index + 1}00` : '',
+          letter !== ' ' ? 'letter--active' : '',
         ]
           .filter(Boolean)
-          .join(" ");
+          .join(' ')
 
         return (
           <div className={letterClass} key={index}>
             {letter}
-            <div className="back">{letter}</div>
+            <div className='back'>{letter}</div>
           </div>
-        );
+        )
       })}
     </div>
-  );
+  )
 }

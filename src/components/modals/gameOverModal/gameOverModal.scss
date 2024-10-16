@@ -37,6 +37,10 @@
             width: 140px;
         }
     }
+
+    a {
+        margin-top: 20px;
+    }
 }
 
 .linkCopiedMessage {
@@ -210,6 +214,10 @@
     .answer {
         color: #fff;
     }
+
+    .gameOverModal {
+        background-color: $dark-bgColor;
+    }
 }
 
 @media (max-width: 768px) {
@@ -226,7 +234,7 @@
     .statsContainer {
         flex-direction: row;
         gap: 10px;
-        width: 60%;
+        width: 70%;
         .statsItem {
             p {
                 font-size: 0.7rem;
@@ -234,30 +242,6 @@
             h2 {
                 font-size: 1.8rem;
             }
-        }
-    }
-
-    .distributionContainer {
-        .distributionRow {
-            flex-direction: row;
-            margin: 20px 0;
-        }
-
-        .progressBar {
-            width: 250px;
-            height: 40px;
-        }
-
-        .attempt,
-        .percentage,
-        .count {
-            text-align: center;
-            font-size: 1rem;
-        }
-
-        .percentage {
-            left: 50%;
-            transform: translateX(-50%);
         }
     }
 }
@@ -268,19 +252,23 @@
     }
 
     .modalHeaderStat {
-        width: 90%;
+        width: 80%;
         font-size: 1.2rem;
     }
 
     .statsContainer {
         padding: 10px;
+        width: 60%;
+        .statsItem {
+            width: 50%;
+        }
     }
 
     .distributionContainer {
         margin-top: 10px;
 
         .progressBar {
-            height: 20px;
+            height: 18px;
         }
 
         .percentage,

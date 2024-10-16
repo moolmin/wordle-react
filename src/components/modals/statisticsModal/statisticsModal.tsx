@@ -65,8 +65,8 @@ export default function StatisticsModal({ onClose }: ModalProps) {
 
   return (
     <div className='modalOverlayTransparent' onClick={handleClickOutside}>
-      <div className='statisticsModal modalContainer'>
-        <div className='modalHeaderStat modalHeader'>
+      <div className='statisticsModal'>
+        <div className='modalHeader'>
           <h2>통계</h2>
           <button className='closeButton' onClick={onClose}>
             <X />
