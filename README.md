@@ -11,7 +11,7 @@
 `다크모드` `게임 도움말` `모바일뷰`
  
 ## 🧩 미리보기
-[배포링크 바로가기](https://wordle-react-bay.vercel.app](http://wordle-react-bucket.s3-website.ap-northeast-2.amazonaws.com)
+[배포링크 바로가기](http://wordle-react-bucket.s3-website.ap-northeast-2.amazonaws.com)
 
 
 | Desktop View                                  | Mobile View                                   |
