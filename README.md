@@ -19,5 +19,5 @@
 | <img src="https://github.com/user-attachments/assets/a41248a6-4776-4832-bbed-b43289a4cf7a" height="400"/> | <img src="https://github.com/user-attachments/assets/3f05ddb7-228e-4df7-a9f6-eb7d287e8c74" height="400"/> |
 
 ## 🧩 ToDos
-- [ ] 일반 게임 시작시 무작위한 단어로 시작할 수 있도록 (: 현재는 정답 WORLD로 고정)
+- [x] 일반 게임 시작시 무작위한 단어로 시작할 수 있도록 (: 현재는 정답 WORLD로 고정)
 - [ ] 모듈쪽 SCSS 겹치는거 공통화 ㄱㄱ

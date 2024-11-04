@@ -2,6 +2,7 @@ import './landing.scss'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CreateGameModal from '@/components/modals/createGameModal/createGameModal'
+import { WORDS } from '@/constants/words'
 
 export default function Landing() {
   const navigate = useNavigate()
@@ -13,7 +14,8 @@ export default function Landing() {
   }, [])
 
   const handleStart = () => {
-    const word = 'world'
+    const randomIndex = Math.floor(Math.random() * WORDS.length)
+    const word = WORDS[randomIndex]
     const encodedWord = btoa(word)
 
     const storedStats = localStorage.getItem('statistics')

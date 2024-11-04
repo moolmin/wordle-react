@@ -2,7 +2,7 @@ import './gameOverModal.scss'
 import { useEffect, useState } from 'react'
 import { ModalProps, Statistics } from '@/types/types'
 
-export default function GameOverModal({ win, onRetry }: ModalProps) {
+export default function GameOverModal({ win }: ModalProps) {
   const [statistics, setStatistics] = useState<Statistics>({
     total: 0,
     win: 0,
@@ -57,9 +57,8 @@ export default function GameOverModal({ win, onRetry }: ModalProps) {
     return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
   }
 
-  const handleRetry = () => {
-    localStorage.removeItem('history')
-    onRetry?.()
+  const handleHome = () => {
+    window.location.replace('/')
   }
 
   const getDecodedWord = () => {
@@ -67,7 +66,7 @@ export default function GameOverModal({ win, onRetry }: ModalProps) {
     return encodedWord ? atob(encodedWord) : 'UNKNOWN'
   }
 
-  const decodedWord = getDecodedWord()
+  const decodedWord = getDecodedWord().toUpperCase()
 
   return (
     <div className='modalOverlayTransparent'>
@@ -116,10 +115,10 @@ export default function GameOverModal({ win, onRetry }: ModalProps) {
           </div>
 
           <div className='buttonContainer'>
-            <button onClick={handleRetry}>🔄 다시하기</button>
+            <button onClick={handleHome}>🏠 메인으로</button>
             <button className='shareButton' onClick={handleShare}>📤 공유하기</button>
           </div>
-          <a href='/'>메인으로</a>
+          {/* <a href='/'>메인으로</a> */}
           {linkCopied && (
             <p className='linkCopiedMessage'>링크가 복사되었습니다.</p>
           )}
